@@ -2,6 +2,7 @@ package application
 
 import (
 	"errors"
+
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
 )
@@ -58,7 +59,6 @@ func NewProduct() *Product {
 		ID:     uuid.NewV4().String(),
 		Status: DISABLED,
 	}
-
 	return &product
 }
 
@@ -76,7 +76,6 @@ func (p *Product) IsValid() (bool, error) {
 	}
 
 	_, err := govalidator.ValidateStruct(p)
-
 	if err != nil {
 		return false, err
 	}
@@ -91,9 +90,18 @@ func (p *Product) Enable() error {
 	return errors.New("the price must be greater than zero to enable the product")
 }
 
-// func (p *Product) ChangePrice(price float64) error {
-//
-// }
+func (p *Product) ChangePrice(price float64) error {
+	if p.Price < 0 {
+		return errors.New("price only accept positive numbers")
+	}
+	p.Price = price
+	_, err := p.IsValid()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (p *Product) Disable() error {
 	if p.Price == 0 {
 		p.Status = DISABLED
