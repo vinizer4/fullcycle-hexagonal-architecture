@@ -3,6 +3,7 @@ package application
 import (
 	"errors"
 	"github.com/asaskevich/govalidator"
+	uuid "github.com/satori/go.uuid"
 )
 
 func init() {
@@ -52,8 +53,14 @@ type Product struct {
 	Status string  `valid:"required"`
 }
 
-//func NewProduct() *Product {
-//}
+func NewProduct() *Product {
+	product := Product{
+		ID:     uuid.NewV4().String(),
+		Status: DISABLED,
+	}
+
+	return &product
+}
 
 func (p *Product) IsValid() (bool, error) {
 	if p.Status == "" {
