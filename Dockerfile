@@ -8,7 +8,7 @@ RUN go get -u github.com/spf13/cobra@latest && \
     go install github.com/spf13/cobra-cli@latest
 
 
-RUN apt-get update && apt-get install sqlite3 -y
+RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev
 
 RUN usermod -u 1000 www-data
 RUN mkdir -p /var/www/.cache
